@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id                Int                  @id @default(autoincrement())
+  brand             String               //Marca do carro
+  model             String               //Modelo do carro
+  color             String               //Cor do carro
+  year_manufacture  String               //Ano de fabricação
+  imported          Boolean              //Se o carro é importado ou não
+  plates            String               //Placa do carro
+  selling_date      DateTime?            //Data de venda; preenchimento opcional
+  selling_price     Decimal?             //Preço da venda; preenchimento opcional
+}
