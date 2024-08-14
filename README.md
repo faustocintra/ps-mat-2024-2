@@ -1,2 +1,11 @@
-# ps-mat-2024-2
-Repositório da disciplina Eletiva II - Programação de Scripts, 5º semestre ADS matutino Fatec Franca 2024/2
+# Criação do projeto back-end
+
+npx @aka-demy/create-express-app
+
+Perguntas feitas pelo comando:
+
+- Ok to proceed? y
+- Give a name for the app: back-end
+- Language: Javascript
+- Template engine: None
+- Package manager: npm
