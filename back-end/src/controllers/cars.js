@@ -1,4 +1,4 @@
-import primsa from '../database/client.js'
+import prisma from '../database/client.js'
 
 const controller = {}
 
@@ -14,5 +14,19 @@ controller.create = async function (req, res) {
         res.status(500).end
     }
 }
+
+controller.retrieveAll = async function(req, res) {
+    try {
+        const result = await prisma.car.findMany()
+
+        res.send(result)
+    }
+    catch(error){
+        console.error(error)
+
+        res.status(500).end()
+    }
+}
+
 
 export default controller
