@@ -11,13 +11,14 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model car {
   id                  Int      @id @default(autoincrement())
   brand               String    // Marca do carro
   model               String    // Modelo do carro
-  year_manufacture    String    // Ano de fabricação
+  year_manufacture    Int       // Ano de fabricação
   color               String    // Cor do carro
   imported            Boolean   // Se o carro é importado
   plate               String    // Placa do carro
