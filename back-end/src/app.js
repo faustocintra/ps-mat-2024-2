@@ -15,4 +15,7 @@ app.use(cookieParser())
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 
+import carsRouter from './routes/cars.js'
+app.use('/cars', carsRouter) 
+
 export default app
