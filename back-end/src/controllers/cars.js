@@ -17,4 +17,16 @@ controller.create = async function (req,res) {
     }
 }
 
+controller.retriveAll = async function (req, res) {
+    try{
+        const result = await prisma.car.findMany
+        res.send(result)
+    }   
+    catch(error){
+        console.error(error)
+
+        res.status(500).end
+    } 
+}
+
 export default controller
