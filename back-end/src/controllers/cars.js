@@ -15,4 +15,20 @@ controller.create = async function (req,res){
     }   
 }
 
-export default controller
+controller.retrievall = async function (req,res){
+    try {
+        const result = await prisma.car.findMany()
+        // HTTP 200 :OK (IMPLICITO)
+        res.send(result)
+
+    }
+    catch(error){
+        console.error(error)
+
+        //HTTP 500: Internal Server Error
+
+        res.status(500).end()
+    }
+}
+
+export default controller 
