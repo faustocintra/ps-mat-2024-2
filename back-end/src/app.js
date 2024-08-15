@@ -1,18 +1,23 @@
-import express, { json, urlencoded } from 'express'
-import cookieParser from 'cookie-parser'
-import logger from 'morgan'
+import express, { json, urlencoded } from "express";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
 
-import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
 
-const app = express()
+const app = express();
 
-app.use(logger('dev'))
-app.use(json())
-app.use(urlencoded({ extended: false }))
-app.use(cookieParser())
+app.use(logger("dev"));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 
-export default app
+/********* ROTAS DA API ***********/
+
+import carsRouter from "./routes/cars.js";
+app.use("/cars", carsRouter);
+
+export default app;

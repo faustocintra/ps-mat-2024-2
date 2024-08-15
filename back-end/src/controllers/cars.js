@@ -1,4 +1,4 @@
-import prisma from "../database/client";
+import prisma from "../database/client.js";
 
 const controller = {}; // Objeto vazio
 
@@ -8,6 +8,20 @@ controller.create = async function (req, res) {
 
     // HTTP 201: Created
     res.status(201).end();
+  } catch (error) {
+    console.error(error);
+
+    // HTTP 500: Internal Server Error
+    res.status(500).end();
+  }
+};
+
+controller.retrieveAll = async function (req, res) {
+  try {
+    const result = await prisma.car.findMany();
+
+    // HTTP 200: OK
+    res.send(result);
   } catch (error) {
     console.error(error);
 
