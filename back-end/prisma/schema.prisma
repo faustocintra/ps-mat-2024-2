@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Car {
@@ -18,7 +19,7 @@ model Car {
   brand                 String          // Marca do carro
   model                 String          // Modelo do carro
   color                 String          // Cor do carro
-  year_manufacture      String          // Ano de fabricação
+  year_manufacture      Int             // Ano de fabricação
   imported              Boolean         // Se o carro é importado ou não
   plates                String          // Placas do carro
   selling_date          DateTime?       // Data de venda; preenchido opcional
