@@ -19,9 +19,24 @@ model Car {
   brand               String                   //Marca do carro
   model               String                   //Modelo do carro
   color               String                   //Cor do carro
-  year_manufacture    Int                   //Ano de frabicação
+  year_manufacture    Int                      //Ano de frabicação
   imported            Boolean                  //Se o carro é importado ou não
   plates              String                   //Placas do carro
   selling_date        DateTime?                //Data da venda; preenchimento opcional
   selling_price       Decimal?                 //Preço de venda; preechimento opcional 
 }
+
+model Customer {
+  id                  Int                      @id @default(autoincrement())
+  name                String                   //Nome do cliente
+  ident_document      String                   //Documento de identificação
+  birth_date          DateTime?                //Data de nascimento (opcional)
+  street_name         String                   //Nome da rua
+  house_number        String                   //Numero da casa
+  complements         String?                  //Complemento (opcional)
+  municipality        String                   //Cidade
+  state               String                   //Estado
+  phone               String                   //Telefone
+  email               String                   //Email
+}
+
