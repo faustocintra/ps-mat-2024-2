@@ -25,3 +25,17 @@ model Car {
   selling_date             DateTime?     // Data de venda; preenchimento opcional
   selling_price            Decimal?      // Preço de venda; preenchimento opcional
 }
+
+model Customer {
+  id                       Int           @id @default(autoincrement())
+  name                     String        // Nome do cliente
+  ident_document           String        // Documento de identificação do cliente
+  birth_date               DateTime      // Data de nascimento do cliente
+  street_name              String        // Nome da rua do cliente
+  house_number             String        // Número da casa do cliente
+  complements              String?       // Complemento do endereço; preenchimento opcional
+  municipality             String        // Município do cliente
+  state                    String        // Estado do cliente
+  phone                    String        // Telefone do cliente
+  email                    String        // E-mail do cliente
+}
