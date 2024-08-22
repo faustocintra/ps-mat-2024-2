@@ -25,3 +25,17 @@ model car {
   selling_date        DateTime? // Data de venda; pode ser nulo
   selling_price       Decimal?  // Preço de venda; pode ser nulo
 }
+
+model customer {
+  id             Int      @id @default(autoincrement())
+  name           String    // Nome do cliente
+  ident_document String    // Documento de identificação
+  birth_date     DateTime? // Data de nascimento (pode ser nulo)
+  street_name    String    // Nome da rua
+  house_number   String    // Número da casa
+  complements    String?   // Complementos do endereço (pode ser nulo)
+  municipality   String    // Município
+  state          String    // Estado
+  phone          String    // Telefone
+  email          String    // E-mail
+}
