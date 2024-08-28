@@ -4,11 +4,11 @@ const prisma = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }]
 })
 
-// Exibe no console as instruções SQL enviados ao BD
-prisma.$on('querry', event => {
+// Exibe no console as instruções SQL enviadas ao BD
+prisma.$on('query', event => {
     console.log('%'.repeat(60))
     console.log(event.query)
-    if(event.params) console.log('PARAMS:', event.params)
+    if (event.params) console.log('PARAMS:', event.params)
     console.log('%'.repeat(60))
 })
 
