@@ -26,3 +26,17 @@ model Car {
   selling_price     Decimal?  // valor de venda; preenchimento opcional
 
 }
+
+model Customer{
+  id                Int       @id @default(autoincrement())
+  name              String    
+  ident_document    String    
+  birth_date        DateTime?    
+  street_name       String       
+  house_number      String   
+  complements       String?    
+  municipality      String 
+  state             String  
+  phone             String
+  email             String
+}
