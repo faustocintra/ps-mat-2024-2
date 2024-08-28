@@ -15,4 +15,12 @@ app.use(cookieParser())
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 
+/*********** ROTAS DA API **************/
+
+import carsRouter from './routes/cars.js'
+app.use('/cars', carsRouter)
+
+import customersRouter from './routes/customers.js'
+app.use('/customers', customersRouter)
+
 export default app
