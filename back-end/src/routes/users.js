@@ -1,24 +1,12 @@
 import { Router } from 'express'
+import controller from '../controllers/users.js'
+
 const router = Router()
 
-/* GET all users. */
-router.get('/', function (req, res) {
-  res.send('Fetched all users')
-})
-
-/* POST a user. */
-router.post('/', function (req, res) {
-  res.send('Created a user')
-})
-
-/* PATCH a user. */
-router.patch('/', function (req, res) {
-  res.send('Updated a user')
-})
-
-/* DELETE a user. */
-router.delete('/', function (req, res) {
-  res.send('Deleted a user')
-})
+router.post('/', controller.create)
+router.get('/', controller.retrieveAll)
+router.get('/:id', controller.retrieveOne)
+router.put('/:id', controller.update)
+router.delete('/:id', controller.delete)
 
 export default router
