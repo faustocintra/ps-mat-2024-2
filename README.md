@@ -20,6 +20,7 @@ npx prisma init --datasource-provider postgresql
 # Executando uma migration no Prisma
 npx prisma migrate dev --name create-cars
 npx prisma migrate dev --name create-customers
+npx prisma migrate dev --name create-users
 
 # Alterar tabela com Prisma
 npx prisma migrate dev --name alter-cars
