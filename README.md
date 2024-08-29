@@ -23,3 +23,17 @@ npx prisma init --datasource-provider postgresql
 npx prisma migrate dev --name create-cars (criando a tabela cars)
 
 npx prisma migrate dev --name create-customers (criando a tabela customers)
+
+npx prisma migrate dev --name create-users (criando a tabela users)
+
+# Para cryptografar senha
+npm install bcrypt
+
+# Para atualizar o Schema Prisma
+npx prisma generate
+
+# Instalar token pro login
+npm install jsonwebtoken
+
+# Para ler o token
+npm install dotenv

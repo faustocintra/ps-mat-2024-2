@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -38,6 +39,15 @@ model Customer {
   state          String // Estado
   phone          String // Número de telefone
   email          String // Endereço de email  
+}
+
+model User {
+   id             Int      @id @default(autoincrement())
+   fullname       String // Nome do cliente
+   username       String   @unique // Nome do usuário; não pode repetir
+   email          String   @unique // Endereço de email; não pode repetir
+   password       String // Senha
+   is_admin       Boolean @default(false) //Admm
 }
 
 
