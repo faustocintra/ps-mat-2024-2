@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Oculta os botões de editar e excluir dos datagrids, por padrão */
+.MuiDataGrid-row button {
+  visibility: hidden;
+}
+
+/* 
+  Reexibe os botões de editar e excluir de um datagrid quando o cursor
+  do mouse estiver sobre uma linha da grid
+*/
+.MuiDataGrid-row:hover button {
+  visibility: visible;
+}
+
+/* 
+  Regras para colocar campos de formulário lado a lado quando houver
+  largura suficiente para isso
+*/
+.form-fields form {
+  margin: 0 auto;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-fields .MuiFormControl-root {
+  min-width: 250px;
+  max-width: 600px;
+  width: 600px;
+  margin-bottom: 36px;
+}

@@ -28,8 +28,9 @@ controller.create = async function (req, res) {
 
 controller.retrieveAll = async function (req, res) {
     try {
-        const result = await prisma.users.findMany()
-        omit: { password: true } //Não retorna o campo "password"
+        const result = await prisma.user.findMany({
+            omit: { password: true }, //Não retorna o campo "password"
+        })
 
         // HTTP 200: OK (implícito)
         res.send(result)
@@ -44,8 +45,8 @@ controller.retrieveAll = async function (req, res) {
 
 controller.retrieveOne = async function (req, res) {
     try {
-        const result = await prisma.users.findUnique({
-            omit: { password: true }, // Não retorna o campo "password"
+        const result = await prisma.user.findUnique({
+            omit: { password: true }, //Não retorna o campo "password"
             where: { id: Number(req.params.id) }
         })
 
@@ -64,7 +65,14 @@ controller.retrieveOne = async function (req, res) {
 
 controller.update = async function (req, res) {
     try {
-        const result = await prisma.users.update({
+
+        //Verificando se foi passado o campo "password"
+        //Em caso de afirmativo, criptografa a senha
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 12)
+        }
+
+        const result = await prisma.user.update({
             where: { id: Number(req.params.id) },
             data: req.body
         })
@@ -84,7 +92,7 @@ controller.update = async function (req, res) {
 
 controller.delete = async function (req, res) {
     try {
-        await prisma.users.delete({
+        await prisma.user.delete({
             where: { id: Number(req.params.id) }
         })
 
@@ -106,11 +114,11 @@ controller.delete = async function (req, res) {
     }
 }
 
-controller.login = async function (req, res) {
+controller.login = async function(req, res) {
     try {
-
-        // Busca o usuário no banco de dados usando o valor dos campos 
-        // "username" OU "email"
+        
+        //Busca o usuario no BD usando o valor dos campos
+        // "username" ou "email"
         const user = await prisma.user.findUnique({
             where: {
                 OR: [
@@ -120,33 +128,40 @@ controller.login = async function (req, res) {
             }
         })
 
-        // Se o usuário não for encontrado, retorna
-        // HTTP 401: Unauthorized
-        if (!user) return res.status(401).end()
+        //Se o usuario não for encontrado, retorna
+        //HTTP 401: Unauthorized
+        if(! user) return res.status(401).end()
 
-        // Usuário encontrado, vamos conferir a senha
+        //Usuario encontrado, vamos conferir a senha
         const passwordIsValid = await bcrypt.compare(req.body?.password, user.password)
 
-        // Se a senha estiver errada, retorna
-        // HTTP 401: Unauthoruized
-        if (!passwordIsValid) return res.status(401).end()
+        //Se a senha estiver errada, retorna
+        //HTTP 401: Unauthorized
+        if(! passwordIsValid) return res.status(401).end()
 
-        // Usuário e senha OK, passamos ao procedimento de gerar o token
+        //Usuario e senha ok, passamos ao procedimento de gerar token
         const token = jwt.sign(
-            user,                       // Dados do usuário
-            process.env.TOKEN_SECRET,   // Senha para criptografar o token
-            { expiresIn: '24h' }         // Prazo de validade do token
+            user,                     //dados do usuario
+            process.env.TOKEN_SECRET, //senha para criptografar o token
+            { expiresIn: '24h' }      //prazo de validade do token
         )
 
-        // Retorna o token e o usuário autenticado
-        res.send({ token, user })
+        //retorna o token e o usuario autenticado
+        res.send({token, user})
     }
     catch (error) {
         console.error(error)
 
         // HTTP 500: Internal Server Error
         res.status(500).end()
-    }
+    } 
+}
+
+controller.me = function(req, res){
+    // Retorna as informações do usuário autenticado
+    // HTTP 200: OK (implícito)
+    res.send(req?.authUser)
+    return req?.authUser
 }
 
 export default controller
