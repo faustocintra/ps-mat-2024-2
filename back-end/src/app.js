@@ -16,15 +16,19 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
+//app.use('/users', usersRouter)
 
 /************ ROTAS DA API ************/
+
+// Middleware de verificação de autorização
+import authMiddleware from './middleware/auth.js'
+app.use(authMiddleware)
 
 import carsRouter from './routes/cars.js'
 app.use('/cars', carsRouter)
 import customersRouter from './routes/customers.js'
 app.use('/customers', customersRouter)
 import usersRouter from './routes/users.js'
-app.use('/customers', customersRouter)
+app.use('/users', usersRouter)
 
 export default app

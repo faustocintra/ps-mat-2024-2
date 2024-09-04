@@ -118,7 +118,7 @@ controller.login = async function(req, res) {
     try {
 
         // Busca o usuário no BD usando o valor dos campos "username" OU "email"
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 OR: [
                     { username: req.body?.username },
@@ -154,6 +154,12 @@ controller.login = async function(req, res) {
         // HTTP 500: Internal Server Error
         res.status(500).end()
     }
+}
+
+controller.me = function(req, res) {
+    // Retorna as informações do usuário autenticado
+    // HTTP 200: OK (implícito)
+    res.send(req?.authUser)
 }
 
 export default controller
