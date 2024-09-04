@@ -20,6 +20,9 @@ app.use('/', indexRouter)
 
 /************** Rotas da API *********************/
 
+import authMiddleware from './middleware/auth.js'
+app.use(authMiddleware)
+
 import carsRouter from './routes/cars.js'
 app.use('/cars', carsRouter)
 
