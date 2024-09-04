@@ -113,7 +113,7 @@ controller.login = async function (req, res) {
 
         // Busca o usuário no BD usando o valor dos campos
         // "username" ou "email"
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 OR: [
                     { username: req.body?.username },
@@ -122,33 +122,39 @@ controller.login = async function (req, res) {
             }
         })
 
+        // Se o usuário não for encontrado, retorna
+        // HTTP 401: Unauthorized
+        if (!user) return res.status(401).end()
+
+        // Usuário encontrado, vamos conferir a senha
+        const passwordisValid = await bcrypt.compare(req.body?.password, user.password)
+
+        // Se a senha estiver errada, retona
+        // HTTP 401: Unauthorized
+        if (!passwordisValid) return res.status(401).end()
+
+        // Usuário e senha OK, passamos ao procedimento de gerar o token
+        const token = jwt.sign(
+            user,                                       // Dados do usuário
+            process.env.TOKEN_SECRET,                   // Senha para criptografar o token
+            { expiresIn: '24h' }                         // Prazo de validade do token
+        )
+
+        // Retorna o token e o usuário autenticado
+        res.send({ token, user })
+
     } catch (error) {
         console.error(error)
 
         // HTTP 500: Internal Server Error
         res.status(500).end()
     }
+}
 
-    // Se o usuário não for encontrado, retorna
-    // HTTP 401: Unauthorized
-    if (!user) return res.status(401).end()
-
-    // Usuário encontrado, vamos conferir a senha
-    const passwordisValid = await bcrypt.compare(req.body?.password, user.password)
-
-    // Se a senha estiver errada, retona
-    // HTTP 401: Unauthorized
-    if (!passwordisValid) return res.status(401).end()
-
-    // Usuário e senha OK, passamos ao procedimento de gerar o token
-    const token = jwt.sign(
-        user,                                       // Dados do usuário
-        process.env.TOKEN_SECRET,                   // Senha para criptografar o token
-        { expiresIn: '24h' }                         // Prazo de validade do token
-    )
-
-    // Retorna o token e o usuário autenticado
-    res.send({ token, user })
+controller.me = function (req, res) {
+    // Retorna as informações do usuário autenticado
+    // HTTP 200: OK (implícito)
+    return res.send(req?.authUser)
 }
 
 export default controller
