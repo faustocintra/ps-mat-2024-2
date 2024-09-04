@@ -157,5 +157,10 @@ controller.retrieveOne = async function(req, res) {
       res.status(500).end()
     }
   }
+
+  controller.me = function(req, res) {
+    // Retorna o usuário autenticado
+    return req?.authUser;
+  }
   
 export default controller; // Exporta o objeto vazio

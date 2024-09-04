@@ -19,6 +19,9 @@ app.use('/', indexRouter)
 
 // Rotas da API
 
+// Middleware de autenticação
+import authMiddleware from './middleware/auth.js'
+app.use(authMiddleware)
 import carsRouter from './routes/cars.js'
 app.use('/cars', carsRouter)
 import customersRouter from './routes/customers.js'
