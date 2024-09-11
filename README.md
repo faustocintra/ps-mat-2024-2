@@ -37,3 +37,9 @@ npm install jsonwebtoken
 
 # Para ler o token
 npm install dotenv
+
+# Para instalar o cors
+npm install cors 
+
+# Para arrumar o problema do cors
+npm audit fix
