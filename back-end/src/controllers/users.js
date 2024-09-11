@@ -152,9 +152,10 @@ controller.login = async function (req, res) {
     }
 }
 
-controller.me = function (req, res) {
+controller.me = function(req, res) {
     // Retorna as informações do usuário autenticado
-    return req?.authUser
-}
+    // HTTP 200: OK (implícito)
+    res.send(req?.authUser)
+  }
 
 export default controller
