@@ -11,6 +11,8 @@ import CustomerList from '../pages/customer/CustomerList'
 
 import About from '../pages/About'
 
+import Login from '../pages/Login'
+
 export default function AppRoutes() {
   return <Routes>
     <Route path="/" element={ <Homepage /> } />
@@ -25,5 +27,6 @@ export default function AppRoutes() {
 
     {/* 11. Crie uma rota para esse componente. */}
     <Route path="/about" element={ <About /> } />
+    <Route path="/login" element={ <Login /> } />
   </Routes>
 }
