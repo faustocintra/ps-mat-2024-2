@@ -110,7 +110,7 @@ controller.login = async function (req,res) {
     try {
         // buscar o usuario no banco de dados
         // username ou email
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 OR: [
                     {username: req.body?.username},
@@ -129,7 +129,7 @@ controller.login = async function (req,res) {
             {expiresIn: '24h'}
 
         )
-        res.send({token,user})
+        res.send({token,user}).end()
     }
     catch(error){
         console.error(error)
@@ -138,6 +138,10 @@ controller.login = async function (req,res) {
 
         res.status(500).end()
     } 
+}
+controller.me = function(req,res){
+    // retorna as informações do usuario autenticado
+    return req?.authUser
 }
 
 
