@@ -11,9 +11,13 @@ import CustomerList from '../pages/customer/CustomerList'
 
 import About from '../pages/About'
 
+import Login from '../pages/login/Login'
+
 export default function AppRoutes() {
   return <Routes>
     <Route path="/" element={ <Homepage /> } />
+
+    <Route path='/login' element={ <Login /> } />
 
     <Route path="/cars" element={ <CarList /> } />
     <Route path="/cars/new" element={ <CarForm /> } />
