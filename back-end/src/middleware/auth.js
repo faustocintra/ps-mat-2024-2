@@ -1,64 +1,73 @@
 /*
-Este middleware intercepta todas as rotas e verifica
-se um token de autenticação foi enviado junto com a 
-request
+  Este middleware intercepta todas as rotas e verifica
+  se um token de autenticação foi enviado junto com a 
+  request
 */
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
 /*
-Algumas rotas não precisam de autenticação
+  Algumas rotas, como /user/login, poderão ser acessadas
+  sem a necessidade de apresentação do token
 */
 const bypassRoutes = [
-    {url: '/users/login', method: 'POST'}
-];
+  { url: '/users/login', method: 'POST' }
+]
 
 export default function(req, res, next) {
-    /*
-    Verificamos se a rota inteceptada corresponde a alguma das
-    exceções cadastradas acima, sendo o caso, permite continuar
-    sem verificar a autenticação
-    */
-   for(let route of bypassRoutes) {
-        if(route.url === req.url && route.method === req.method) {
-            next();
-            return;
-        }
+
+  /*
+    Verificamos se a rota interceptada corresponde a alguma das
+    exceções cadastradas acima. Sendo o caso, permite continuar
+    sem verificar a autorização
+  */
+  for(let route of bypassRoutes) {
+    if(route.url === req.url && route.method === req.method) {
+      next()
+      return
+    }
+  }
+
+  /* PROCESSO DE VERIFICAÇÃO DO TOKEN DE AUTORIZAÇÃO */
+  let token = null
+
+  // O token é enviado por meio do cabeçalho 'authorization'
+  // da request
+  const authHeader = req.headers['authorization']
+
+  console.log({ HEADERS: req.headers })
+
+  // O cabeçalho 'authorization' não existe, retorna
+  // HTTP 403: Forbidden
+  if(! authHeader) {
+    console.error('*** ERRO: acesso negado por falta de cabeçalho de autorização ***')
+    return res.status(403).end()
+  }
+
+  // O cabeçalho de autorização tem o formato "Bearer XXXXXXX",
+  // onde XXXXXXX é o token. Portanto, precisamos dividir esse
+  // cabeçalho em duas partes, cortando-o onde está o caracter de
+  // espaço, e aproveitar apenas a segunda parte
+  token = authHeader.split(' ')[1]
+
+  // Validação do token
+  jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
+
+    // Token inválido ou expirdo, retorna
+    // HTTP 403: Forbidden
+    if(error) {
+      console.error('*** ERRO: acesso negado; token inválido ou expirado ***')
+      return res.status(403).end()
     }
 
-    
-    // PROCESSO DE VERIFICAÇÃO DO TOKEN DE AUTORIZAÇÃO
-    let token = null;
-    
-    // O token é enviado por meio do cabeçalho Authorization da request
-    const authHeader = req.headers['authorization'];
+    // Se chegamos até aqui, o token está OK e temos as informações
+    // do usuário logado no parâmetro 'user'. Vamos guardar isso
+    // dentro do 'req' para usar depois
+    req.authUser = user
 
-    // O cabeçalho Authorization não existe, retorna HTTP 403: Forbidden
-    if(!authHeader) {
-        console.error('*** ERRO: acesso negado por falta de token de autorização ***');
-        res.status(403).end();
-        return;
-    }
+    // Continua para a rota normal
+    next()
 
-    // O cabeçalho de autorização tem o formato "Bearer XXXXXXXX"
-    // onde XXXXXXXX é o token de autorização, portanto, precisamos dividir
-    // esse cabeçalho em duas partes, cortando onde está o espaço
-    // e aproveitando a segunda parte, que é o token
-    token = authHeader.split(' ')[1];
+  })
 
-    // Verifica se o token é válido
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-        // Se o token não é válido, retorna HTTP 403: Forbidden
-        if(error) {
-            console.error('*** ERRO: acesso negado; token invalido ou expirado ***');
-            res.status(403).end();
-            return;
-        }
+}
 
-        req.authUser = user;
-
-        // Se o token é válido, permite continuar
-        next();
-    });
-};
-
-// PROCESSO DE VERIFICAÇÃO DO TOKEN DE AUTORIZAÇÃO

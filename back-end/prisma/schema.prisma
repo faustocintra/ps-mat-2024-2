@@ -10,42 +10,28 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-model car {
-  id                  Int      @id @default(autoincrement())
-  brand               String    // Marca do carro
-  model               String    // Modelo do carro
-  year_manufacture    Int       // Ano de fabricação
-  color               String    // Cor do carro
-  imported            Boolean   // Se o carro é importado
-  plate               String    // Placa do carro
-  selling_date        DateTime? // Data de venda; pode ser nulo
-  selling_price       Decimal?  // Preço de venda; pode ser nulo
+model Car {
+  id                Int           @id @default(autoincrement())
+  brand             String        // Marca do carro
+  model             String        // Modelo do carro
+  color             String        // Cor do carro
+  year_manufacture  Int           // Ano de fabricação
+  imported          Boolean       // Se o carro é importado ou não
+  plates            String        // Placas do carro
+  selling_date      DateTime?     // Data de venda; preenchimento opcional
+  selling_price     Decimal?      // Preço de venda; preenchimento opcional    
 }
 
-model customer {
-  id             Int      @id @default(autoincrement())
-  name           String    // Nome do cliente
-  ident_document String    // Documento de identificação
-  birth_date     DateTime? // Data de nascimento (pode ser nulo)
-  street_name    String    // Nome da rua
-  house_number   String    // Número da casa
-  complements    String?   // Complementos do endereço (pode ser nulo)
-  municipality   String    // Município
-  state          String    // Estado
-  phone          String    // Telefone
-  email          String    // E-mail
-}
-
-model user {
-  id           Int      @id @default(autoincrement())
-  fullname     String   // Nome do usuário
-  username     String   @unique // Nome de usuário
-  email        String   @unique // E-mail do usuário
-  password     String   // Senha do usuário
-  is_admin     Boolean   @default(false) // Papel do usuário
+model User {
+  id                Int           @id @default(autoincrement())
+  fullname          String        // Nome completo
+  username          String        @unique   // Não pode repetir
+  email             String        @unique
+  password          String
+  is_admin          Boolean       @default(false)
 }
