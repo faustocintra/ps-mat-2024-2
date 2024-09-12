@@ -38,6 +38,7 @@ npm install jsonwebtoken
 # Para ler o token
 npm install dotenv
 
+# FRONT-END
 # Para instalar o cors
 npm install cors 
 
