@@ -13,10 +13,10 @@ import {
     VisibilityOff
 } from '@mui/icons-material'
 import myfetch from '../lib/myfetch'
-import useNotifiction from '../ui/useNotification'
 import useWaiting from '../ui/useWaiting'
 import { useNavigate } from 'react-router-dom'
 import useNotification from '../ui/useNotification'
+import AuthUserContext from '../contexts/AuthUserContext'
 
 export default function Login() {
 
@@ -30,6 +30,8 @@ export default function Login() {
         password,
         showPassword
     } = state
+
+    const { authUser, setAuthUser } = React.useContext(AuthUserContext)
 
     const { notify, Notification } = useNotification()
     const { showWaiting, Waiting } = useWaiting()
@@ -68,6 +70,9 @@ export default function Login() {
                 import.meta.env.VITE_AUTH_TOKEN_NAME,
                 response.token
             )
+
+            // Armazena as informações do usuário autenticado
+            setAuthUser(response.user)
 
             // Mostra a notificação de sucesso e depois vai para a página inicial
             notify('Autenticação realizada com sucesso', 'success', 1500, () => navigate('/'))
