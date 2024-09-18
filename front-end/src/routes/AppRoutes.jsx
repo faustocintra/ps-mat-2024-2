@@ -1,6 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
+import AuthGuard from './AuthGuard'
+
 import Homepage from '../pages/Homepage'
 
 import Login from '../pages/Login'
@@ -23,9 +25,9 @@ export default function AppRoutes() {
     <Route path="/cars/new" element={ <CarForm /> } />
     <Route path="/cars/:id" element={ <CarForm /> } />
 
-    <Route path="/customers" element={ <CustomerList /> } />
-    <Route path="/customers/new" element={ <CustomerForm /> } />
-    <Route path="/customers/:id" element={ <CustomerForm /> } />
+    <Route path="/customers" element={<AuthGuard> <CustomerList /> </AuthGuard>} />
+    <Route path="/customers/new" element={ <AuthGuard> <CustomerForm /> </AuthGuard> } />
+    <Route path="/customers/:id" element={ <AuthGuard> <CustomerForm /> </AuthGuard> } />
 
     {/* 11. Crie uma rota para esse componente. */}
     <Route path="/about" element={ <About /> } />

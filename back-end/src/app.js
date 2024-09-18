@@ -23,7 +23,7 @@ app.use(cookieParser())
 
 app.use('/', indexRouter)
 
-//app.use(authMiddleware)
+app.use(authMiddleware)
 app.use('/users', usersRouter)
 app.use('/cars', carsRouter)
 app.use('/customers', customersRouter)
