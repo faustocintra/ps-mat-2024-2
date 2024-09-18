@@ -35,3 +35,17 @@ model User {
   password          String
   is_admin          Boolean       @default(false)
 }
+
+model Customer {
+  id                Int         @id @default(autoincrement())
+  name              String
+  ident_document    String
+  birth_date        DateTime?
+  street_name       String
+  house_number      String
+  complements       String?
+  municipality      String
+  state             String
+  phone             String
+  email             String
+}
