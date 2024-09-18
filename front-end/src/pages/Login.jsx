@@ -15,6 +15,7 @@ import myfetch from '../lib/myfetch'
 import useNotification from '../ui/useNotification'
 import useWaiting from '../ui/useWaiting'
 import { useNavigate } from 'react-router-dom'
+import AuthUserContext from '../contexts/AuthUserContext'
 
 export default function Login() {
 
@@ -28,6 +29,8 @@ export default function Login() {
     password,
     showPassword
   } = state
+
+  const { setAuthUser } = React.useContext(AuthUserContext)
 
   const { notify, Notification } = useNotification()
   const { showWaiting, Waiting } = useWaiting()
@@ -54,12 +57,15 @@ export default function Login() {
       if(email.includes('@')) LoginData.email = email
       else LoginData.username = email
 
-      const response = await myfetch.post('/users/login', { loginData })
+      const response = await myfetch.post('/users/login',  LoginData )
 
       window.localStorage.setItem(
         import.meta.env.VITE_AUTH_TOKEN_NAME,
         response.token
       )
+
+      //armazena as informações do usuario autenticado
+      setAuthUser(response.user)
 
       notify('Autenticação realizada com sucesso', 'success', 1500,
         () => navigate('/'))
