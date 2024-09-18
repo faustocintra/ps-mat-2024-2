@@ -30,7 +30,7 @@ app.use('/', indexRouter)
 
 
 /************ ROTAS DA API ********************** */
-//app.use (authMidlleware)
+app.use (authMidlleware)
 app.use('/cars', carsRouter)
 app.use('/customers', customerRouter)
 app.use('/users', usersRouter)

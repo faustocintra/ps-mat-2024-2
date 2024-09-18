@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-
+import AuthGuard from './AuthGuard'
 import Homepage from '../pages/Homepage'
 
 import CarForm from '../pages/car/CarForm'
@@ -21,7 +21,7 @@ export default function AppRoutes() {
     <Route path="/cars/new" element={ <CarForm /> } />
     <Route path="/cars/:id" element={ <CarForm /> } />
 
-    <Route path="/customers" element={ <CustomerList /> } />
+    <Route path="/customers" element={ <AuthGuard><CustomerList /> </AuthGuard>} />
     <Route path="/customers/new" element={ <CustomerForm /> } />
     <Route path="/customers/:id" element={ <CustomerForm /> } />
 
