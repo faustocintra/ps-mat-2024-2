@@ -1,40 +1,47 @@
 import React from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import myfetch from '../lib/myfetch'
 import AuthUserContext from '../contexts/AuthUserContext'
 import useWaiting from '../ui/useWaiting'
 
 export default function AuthGuard({ children }) {
 
-  const [hasAuthUser, setHasAuthUser] = React.useState() // undefined
-  const { setAuthUser } = React.useContext(AuthUserContext)
+  const { setAuthUser, authUser, setRedirectLocation } = React.useContext(AuthUserContext)
+  const { status, setStatus } = React.useState('IDLE')
 
   const location = useLocation()
   const { showWaiting, Waiting } = useWaiting()
+  const navigate = useNavigate()
 
   async function checkAuthUser() {
-    setAuthUser(null)
-
+    setStatus('PROCESSING')
     showWaiting(true)
     try {
-      await myfetch.get('/users/me')
-      setHasAuthUser(true)
+      const authUser = await myfetch.get('/users/me')
+      setAuthUser(authUser)
     }
     catch(error) {
-      console.log(error)
+      setAuthUser(null)
+      console.error(error)
+      navigate('/login', { replace: true })
     }
     finally {
       showWaiting(false)
+      setStatus('DONE')
     }
   }
 
   React.useEffect(() => {
+    //salva a rota atual para posterior redirecionamento,
+    //caso a rota atual não seja o próprio login
+
+    if(! location.pathname.includes('login')) setRedirectLocation(location)
     checkAuthUser()
   }, [location])
 
   // Enquanto ainda não temos a resposta do back-end para /users/me,
   // exibimos um componente Waiting
-  if(! authUser) return <Waiting />
+  if(status === 'PROCESSING') return <Waiting />
 
   return authUser ? children : <Navigate to="/login" replace />
   

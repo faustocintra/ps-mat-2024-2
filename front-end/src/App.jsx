@@ -20,6 +20,7 @@ import myfetch from './lib/myfetch';
 function App() {
 
   const [authUser, setAuthUser] = React.useState(null)
+  const [redirectLocation, setRedirectLocation] = React.useState(null)
 
   React.useEffect(() => {
     // Busca informações do usuário autenticado quando
@@ -42,7 +43,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <AuthUserContext.Provider value={{ authUser, setAuthUser }} >
+          <AuthUserContext.Provider value={{ 
+            authUser, setAuthUser,
+            redirectLocation, setRedirectLocation 
+            }} >
             <TopBar />
             
             <Box sx={{ 

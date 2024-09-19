@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom'
+import AuthUserContext from '../contexts/AuthUserContext'
 
 export default function MainMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -14,6 +15,45 @@ export default function MainMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { authUser } = React.useContext(AuthUserContext)
+
+  const menuItems = [
+    {
+      children: 'Página inicial',
+      to: '/',
+      divider: true
+    },
+    {
+      children: 'Listagem de veículos',
+      to: '/cars',
+      divider: false,
+      requiresAuth: true
+    },
+    {
+      children: 'Cadastro de veículos',
+      to: '/cars/new',
+      divider: true,
+      requiresAuth: true
+    },
+    {
+      children: 'Listagem de clientes',
+      to: '/customers',
+      divider: false,
+      requiresAuth: true
+    },
+    {
+      children: 'Cadastro de clientes',
+      to: '/customers/new',
+      divider: true,
+      requiresAuth: true
+    },
+    {
+      children: 'Sobre o autor',
+      to: '/about',
+      divider: false
+    },
+  ]
 
   return (
     <div>
@@ -39,31 +79,22 @@ export default function MainMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose} component={Link} to="/" divider>
-          Página inicial
-        </MenuItem>
-        
-        <MenuItem onClick={handleClose} component={Link} to="/cars">
-          Listagem de veículos
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} component={Link} to="/cars/new" divider>
-          Cadastro de veículos
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} component={Link} to="/customers">
-          Listagem de clientes
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} component={Link} to="/customers/new" divider>
-          Cadastro de clientes
-        </MenuItem>
-
-        {/* 12. Crie uma entrada de menu que carregue a rota recém-criada */}
-        <MenuItem onClick={handleClose} component={Link} to="/about">
-          Sobre o autor
-        </MenuItem>
-        
+        {
+          menuItems.map(item => {
+            if(!(item?.requiresAuth) || (item?.requiresAuth && authUser)) {
+              return <MenuItem 
+                key={item.to} 
+                onClick={handleClose} 
+                component={Link}
+                to={item.to}
+                divider={item.divider}
+              >
+                {item.children}
+              </MenuItem>
+            }
+            else return []
+          })
+        }
       </Menu>
     </div>
   );
