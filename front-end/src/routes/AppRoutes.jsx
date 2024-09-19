@@ -17,19 +17,22 @@ import Login from '../pages/Login'
 export default function AppRoutes() {
   return <Routes>
     <Route path="/" element={ <Homepage /> } />
+    
+    <Route path="/login" element={ <Login /> } />
 
-    <Route path="/cars" element={ <CarList /> } />
+    <Route path="/cars" element={ 
+      <AuthGuard> <CarList /> </AuthGuard> } />
     <Route path="/cars/new" element={ <CarForm /> } />
     <Route path="/cars/:id" element={ <CarForm /> } />
 
-    <Route path="customers" element={ <AuthGuard /> } />
+    <Route path="/customers" element={ 
+      <AuthGuard> <CustomerList /> </AuthGuard> 
+    } />
 
-    <Route path="/customers" element={ <CustomerList /> } />
     <Route path="/customers/new" element={ <CustomerForm /> } />
     <Route path="/customers/:id" element={ <CustomerForm /> } />
 
     {/* 11. Crie uma rota para esse componente. */}
     <Route path="/about" element={ <About /> } />
-    <Route path="/login" element={ <Login /> } />
   </Routes>
 }

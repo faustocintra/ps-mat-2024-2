@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -21,32 +22,32 @@ export default function AuthControl() {
 
   async function handleLogoutButtonClick() {
     if(await askForConfirmation('Deseja realmente sair?')) {
-        //   showWaiting(true)
-        //   try {
-        //     await myfetch.post('/users/logout')
-            
-        //     // Apaga as informações em memória do usuário autenticado
-        //     setAuthUser(null)
-            
-        //     showWaiting(false)
+      // showWaiting(true)
+      // try {
+      //   await myfetch.post('/users/logout')
+        
+      //   // Apaga as informações em memória do usuário autenticado
+      //   setAuthUser(null)
+        
+      //   showWaiting(false)
 
-        //     // Navega para a página de login
-        //     navigate('/login')
-        //   }
-        //   catch(error) {
-        //     console.error(error)
-        //     notify(error.message, 'error')
-        //     showWaiting(false)
-        //   }
+      //   // Navega para a página de login
+      //   navigate('/login')
+      // }
+      // catch(error) {
+      //   console.error(error)
+      //   notify(error.message, 'error')
+      //   showWaiting(false)
+      // }
 
-        // Apaga o token do localStorage
-        window.localStorage.removeItem(import.meta.env.VITE_AUTH_TOKEN_NAME)
+      // Apaga o token do localStorage
+      window.localStorage.removeItem(import.meta.env.VITE_AUTH_TOKEN_NAME)
 
-        // Remove as informações do usuário autenticado
-        setAuthUser(null)
+      // Remove as informações do usuário autenticado
+      setAuthUser(null)
 
-        // Redireciona para a página de login
-        navigate('/login')
+      // Redireciona para a página de login
+      navigate('/login')
     }
   }
 
@@ -59,7 +60,7 @@ export default function AuthControl() {
 
         <AccountCircleIcon color="secondary" fontSize="small" sx={{ mr: 1 }} />
         <Typography variant="caption">
-          {authUser.fullname}
+          {authUser.username}
         </Typography>
         <Button 
           color="secondary"

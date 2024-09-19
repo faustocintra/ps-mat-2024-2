@@ -19,6 +19,7 @@ function App() {
 
 	// Variável de estado que armazena as informações do usuário autenticado
 	const [authUser, setAuthUser] = React.useState(null)
+	const [redirectLocation, setRedirectLocation] = React.useState(null)
 
 	React.useEffect(() => {
 		// Busca as informações do usuário autenticado quando a aplicação é carregada
@@ -33,7 +34,7 @@ function App() {
 		catch(error) {
 			console.error(error)
 		}
-  }
+  	}
 
 	return (
 		<>
