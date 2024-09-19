@@ -53,7 +53,7 @@ export default function AuthControl() {
 
         <AccountCircleIcon color="secondary" fontSize="small" sx={{ mr: 1 }} />
         <Typography variant="caption">
-          {authUser.Username}
+          {authUser.username}
         </Typography>
         <Button 
           color="secondary"

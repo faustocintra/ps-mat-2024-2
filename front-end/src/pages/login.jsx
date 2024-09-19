@@ -15,7 +15,7 @@ import myfetch from '../lib/myfetch'
 import useNotification from '../ui/useNotification'
 import useWaiting from '../ui/useWaiting'
 import { useNavigate } from 'react-router-dom'
-import AuthUserContext from '../context/AuthUserContext'
+import AuthUserContext from '../contexts/AuthUserContext'
 
 export default function Login() {
 
@@ -30,7 +30,11 @@ export default function Login() {
     showPassword
   } = state
 
-  const {setAuthUser}= React.useContext(AuthUserContext)
+  const { 
+    setAuthUser, 
+    redirectLocation, 
+    setRedirectLocation 
+  } = React.useContext(AuthUserContext)
 
   const { notify, Notification} = useNotification()
   const { showWaiting, Waiting } = useWaiting()
@@ -71,11 +75,19 @@ export default function Login() {
           response.token
       )
 
+      // Armazena as informações do usuário autenticado
       setAuthUser(response.user)
 
       // Mostra a notificação de sucesso e depois vai para a página inicial
-      notify('Autenticação realizada com sucesso', 'success', 1500, 
-        () => navigate('/'))
+      notify('Autenticação realizada com sucesso', 'success', 1500, () => {
+        // Verifica se existe algum destino para redirecionamento
+        if(redirectLocation) {
+          const dest = redirectLocation
+          setRedirectLocation(null)   // Reseta o destino de redirecionamento
+          navigate(dest, { replace: true })
+        }
+        else navigate('/', { replace: true })
+      })
     }
     catch(error) {
       console.error(error)
