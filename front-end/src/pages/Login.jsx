@@ -30,7 +30,11 @@ export default function Login() {
     showPassword
   } = state
 
-  const { setAuthUser } = React.useContext(AuthUserContext)
+  const { 
+    setAuthUser, 
+    redirectLocation, 
+    setRedirectLocation 
+  } = React.useContext(AuthUserContext)
   const { notify, Notification} = useNotification()
   const { showWaiting, Waiting } = useWaiting()
 
@@ -74,8 +78,15 @@ export default function Login() {
       setAuthUser(response.user)
       
       // Mostra a notificação de sucesso e depois vai para a página inicial
-      notify('Autenticação realizada com sucesso', 'success', 1500, 
-        () => navigate('/'))
+      notify('Autenticação realizada com sucesso', 'success', 1500, () => {
+        //Verifico se existe algum destino para redirecionamento
+        if(redirectLocation){
+          const destino = redirectLocation
+          setRedirectLocation(null)
+          navigate(destino, {replace: true})
+        }
+        else navigate('/', {replace: true})
+      })
     }
     catch(error) {
       console.error(error)
