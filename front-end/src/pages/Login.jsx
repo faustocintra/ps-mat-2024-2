@@ -11,10 +11,11 @@ import {
   Visibility,
   VisibilityOff
 } from '@mui/icons-material'
-import myFetch from '../lib/myfetch'
+import myfetch from '../lib/myfetch'
 import useNotification from '../ui/useNotification'
 import useWaiting from '../ui/useWaiting'
 import { useNavigate } from 'react-router-dom'
+import AuthUserContext from '../contexts/AuthUserContext'
 
 export default function Login() {
 
@@ -28,6 +29,8 @@ export default function Login() {
     password,
     showPassword
   } = state
+
+  const { setAuthUser, redirectLocation, setRedirectLocation } = React.useContext(AuthUserContext)
 
   const { notify, Notification} = useNotification()
   const { showWaiting, Waiting } = useWaiting()
@@ -46,27 +49,43 @@ export default function Login() {
   }
 
   async function handleSubmit(event) {
-    event.preventDefault() // Evita o recarregamento da página
+    event.preventDefault()      // Evita o recarregamento da página
     showWaiting(true)
     try {
-      const loginData = {password}
 
-      // Se o valor do email não tiver @ tratar como usurmame
-      if (email.includes('@')) loginData.email = email
+      const loginData = { password }
+
+      if(email.includes('@')) loginData.email = email
+      // Se o valor da variável email não contiver @, será tratado
+      // como um username
       else loginData.username = email
 
+      console.log({ loginData })
+
       // Envia email e password para o back-end para fazer autenticação
-      const response = await myFetch.post('/users/login', 'POST', loginData)
+      const response = await myfetch.post('/users/login', loginData)
 
-      // Armazena o token retornado no local storage (inseguro)
-      window.localStorage.setItem(import.meta.env.VITE_AUTH_TOKEN_NAME, response.token)
+      // Armazena o token retornado no localStorage (INSEGURO!)
+      window.localStorage.setItem(
+          import.meta.env.VITE_AUTH_TOKEN_NAME,
+          response.token
+      )
 
-      // Mostra a notificação de sucesso e depois redireciona para a página inicial
-      notify('Autenticação realizada com sucesso', 'success', 1500,
-        () => navigate('/'))
+      // Armazena as informações do usuário autenticado
+      setAuthUser(response.user)
+
+      // Mostra a notificação de sucesso e depois vai para a página inicial
+      notify('Autenticação realizada com sucesso', 'success', 1500, 
+        () => {
+          if(redirectLocation) {
+            const dest = redirectLocation
+            setRedirectLocation(null)
+            navigate(dest, { replace: true })
+          }
+          else navigate('/', { replace: true })
+        })
     }
-
-    catch(error){
+    catch(error) {
       console.error(error)
       notify(error.message, 'error')
     }
@@ -79,7 +98,7 @@ export default function Login() {
     <>
       <Notification />
       <Waiting />
-      
+
       <Typography variant="h1" gutterBottom>
         Autentique-se
       </Typography>
@@ -96,7 +115,7 @@ export default function Login() {
           <TextField
             name="email"
             value={email}
-            label="Nome de usuário ou email"
+            label="Nome de usuário ou e-mail"
             variant="filled"
             fullWidth
             onChange={handleChange}
