@@ -35,7 +35,7 @@ model Customer {
   street_name    String // Nome da rua
   house_number   String // Número da casa
   complements    String? // Complemento; preenchimento opcional
-  municipality   String // Município
+  municipaty   String // Município
   state          String // Estado
   phone          String // Número de telefone
   email          String // Endereço de email  

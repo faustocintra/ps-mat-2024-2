@@ -22,6 +22,7 @@ function App() {
   // Variável de estado que armazena as informações
   // do usuário autenticado
   const [authUser, setAuthUser] = React.useState(null)
+  const [redirectLocation, setRedirectLocation] = React.useState(null)
 
   React.useEffect(() => {
     // Busca as informações do usuário autenticado quando
@@ -44,7 +45,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <AuthUserContext.Provider value={{ authUser, setAuthUser }} >
+          <AuthUserContext.Provider value={{ 
+            authUser, setAuthUser,
+            redirectLocation, setRedirectLocation
+          }} >
           
             <TopBar />
             
