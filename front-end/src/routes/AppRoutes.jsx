@@ -20,7 +20,7 @@ export default function AppRoutes() {
 
     <Route path="/login" element={ <Login /> } />
 
-    <Route path="/cars" element={ <AuthGuard> <CarList /> </AuthGuard>} />
+    <Route path="/cars" element={ <AuthGuard> <CarList /> </AuthGuard> } />
     <Route path="/cars/new" element={ <AuthGuard> <CarForm /> </AuthGuard> } />
     <Route path="/cars/:id" element={ <AuthGuard> <CarForm /> </AuthGuard> } />
 
@@ -28,8 +28,8 @@ export default function AppRoutes() {
       <AuthGuard> <CustomerList /> </AuthGuard> 
     } />
     
-    <Route path="/customers/new" element={ <AuthGuard> <CustomerForm /> </AuthGuard> } />
-    <Route path="/customers/:id" element={ <AuthGuard> <CustomerForm /> </AuthGuard> } />
+    <Route path="/customers/new" element={ <AuthGuard> <CustomerForm /> </AuthGuard>} />
+    <Route path="/customers/:id" element={ <AuthGuard> <CustomerForm />  </AuthGuard> } />
 
     {/* 11. Crie uma rota para esse componente. */}
     <Route path="/about" element={ <About /> } />

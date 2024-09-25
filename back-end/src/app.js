@@ -27,9 +27,9 @@ app.use('/', indexRouter)
 
 /*********** ROTAS DA API **************/
 
-// Middleware de verificação de autorização
+/* // Middleware de verificação de autorização
 import authMiddleware from './middleware/auth.js'
-app.use(authMiddleware)
+app.use(authMiddleware) */
 
 import carsRouter from './routes/cars.js'
 app.use('/cars', carsRouter)
@@ -39,5 +39,8 @@ app.use('/customers', customersRouter)
 
 import usersRouter from './routes/users.js'
 app.use('/users', usersRouter)
+
+import sellerRouter from './routes/seller.js'
+app.use('/seller', sellerRouter)
 
 export default app

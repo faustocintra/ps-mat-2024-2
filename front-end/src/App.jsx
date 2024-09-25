@@ -45,7 +45,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <AuthUserContext.Provider value={{ authUser, setAuthUser, redirectLocation, setRedirectLocation }} >
+          <AuthUserContext.Provider value={{ 
+            authUser, setAuthUser,
+            redirectLocation, setRedirectLocation
+          }} >
           
             <TopBar />
             
