@@ -1,11 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["omitApi"]
 }
 
@@ -16,36 +10,45 @@ datasource db {
 }
 
 model Car {
-  id                Int           @id @default(autoincrement())
-  brand             String        // Marca do carro
-  model             String        // Modelo do carro
-  color             String        // Cor do carro
-  year_manufacture  Int           // Ano de fabricação
-  imported          Boolean       // Se o carro é importado ou não
-  plates            String        // Placas do carro
-  selling_date      DateTime?     // Data de venda; preenchimento opcional
-  selling_price     Decimal?      // Preço de venda; preenchimento opcional    
+  id               Int       @id @default(autoincrement())
+  brand            String
+  model            String
+  color            String
+  imported         Boolean
+  plates           String
+  selling_date     DateTime?
+  selling_price    Decimal?
+  year_manufacture Int
 }
 
 model User {
-  id                Int           @id @default(autoincrement())
-  fullname          String        // Nome completo
-  username          String        @unique   // Não pode repetir
-  email             String        @unique
-  password          String
-  is_admin          Boolean       @default(false)
+  id       Int     @id @default(autoincrement())
+  fullname String
+  username String  @unique
+  email    String  @unique
+  password String
+  is_admin Boolean @default(false)
 }
 
 model Customer {
-  id                Int         @id @default(autoincrement())
-  name              String
-  ident_document    String
+  id             Int      @id @default(autoincrement())
+  name           String
+  ident_document String
+  birth_date     DateTime
+  street_name    String
+  house_number   String
+  complements    String?
+  state          String
+  phone          String
+  email          String
+  municipality   String
+}
+model Seller {
+  id                Int        @id @default(autoincrement())
+  fullname          String
   birth_date        DateTime?
-  street_name       String
-  house_number      String
-  complements       String?
-  municipality      String
-  state             String
-  phone             String
+  identity_document String
   email             String
+  phone             String
+  is_manager        Boolean
 }
