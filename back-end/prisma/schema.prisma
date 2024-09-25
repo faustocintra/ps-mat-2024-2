@@ -50,3 +50,13 @@ model User{
   password      String
   is_admin      Boolean @default(false)
 }
+
+model Seller{
+    id                Int @id @default(autoincrement()) //ID
+    fullname          String //Nome completo
+    birth_date        DateTime //data de nascimento
+    identify_document String @unique //CPF
+    email             String @unique //Email
+    phone             String //Telefone celular
+    is_manager        Boolean @default(false) // É gerente?
+}

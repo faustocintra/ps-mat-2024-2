@@ -1,19 +1,18 @@
 import express, { json, urlencoded } from 'express'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
-import carsRouter from './routes/cars.js'
+
 import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
-import customerRouter from './routes/customers.js'
+//import usersRouter from './routes/users.js'
 
 const app = express()
+
 import cors from 'cors'
+
 app.use(cors({
-    origin: process.env.FRONT_END_URL.split(',',
-        //credentials: true
-    )
+  origin: process.env.FRONT_END_URL.split(','),
+  // credentials: true
 }))
-import authMiddleware from './middleware/auth.js'
 
 app.use(logger('dev'))
 app.use(json())
@@ -23,8 +22,22 @@ app.use(cookieParser())
 app.use('/', indexRouter)
 //app.use('/users', usersRouter)
 
-app.use('/cars', carsRouter) 
-app.use('/customers', customerRouter)
+/*********** ROTAS DA API **************/
+
+// Middleware de verificação de autorização
+//import authMiddleware from './middleware/auth.js'
+//app.use(authMiddleware)
+
+import sellerRouter from './routes/seller.js'
+app.use('/sellers', sellerRouter)
+
+import carsRouter from './routes/cars.js'
+app.use('/cars', carsRouter)
+
+import customersRouter from './routes/customers.js'
+app.use('/customers', customersRouter)
+
+import usersRouter from './routes/users.js'
 app.use('/users', usersRouter)
 
 export default app
