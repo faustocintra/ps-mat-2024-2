@@ -40,4 +40,8 @@ app.use('/customers', customersRouter)
 import usersRouter from './routes/users.js'
 app.use('/users', usersRouter)
 
+
+import sellerRoute from './routes/seller.js'
+app.use('/sellers', sellerRoute)
+
 export default app
