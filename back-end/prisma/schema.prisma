@@ -49,3 +49,13 @@ model User {
   password          String        // Senha
   is_admin          Boolean       @default(false)
 }
+
+model Seller {
+  id                Int           @id @default(autoincrement()) // Chave primária, autoincremental
+  fullname          String        // Nome Completo
+  birth_date        DateTime      // Data de nascimento
+  ident_document    String        @unique   // CPF, índice único
+  email             String        @unique   // E-mail, índice único
+  phone             String        // Telefone/Celular
+  is_manager        Boolean       @default(false) // É gerente? (Valor padrão: false)
+}
