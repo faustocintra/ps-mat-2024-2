@@ -36,6 +36,9 @@ app.use('/cars', carsRouter)
 import customersRouter from './routes/customers.js'
 app.use('/customers', customersRouter)
 
+import sellersRouter from './routes/sellers.js'
+app.use('/sellers', sellersRouter)
+
 import usersRouter from './routes/users.js'
 app.use('/users', usersRouter)
 
