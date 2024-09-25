@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "user" (
     "id" SERIAL NOT NULL,
     "fullname" TEXT NOT NULL,
     "username" TEXT NOT NULL,
@@ -7,11 +7,11 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "is_admin" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "user_username_key" ON "user"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");

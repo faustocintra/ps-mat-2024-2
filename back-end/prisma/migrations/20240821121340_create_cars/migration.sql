@@ -4,7 +4,7 @@ CREATE TABLE "Car" (
     "brand" TEXT NOT NULL,
     "model" TEXT NOT NULL,
     "color" TEXT NOT NULL,
-    "year_manufacture" TEXT NOT NULL,
+    "year_manufacture" INTEGER NOT NULL,
     "imported" BOOLEAN NOT NULL,
     "plates" TEXT NOT NULL,
     "selling_date" TIMESTAMP(3),
