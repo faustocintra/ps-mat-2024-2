@@ -26,6 +26,8 @@ npx prisma migrate dev --name create-customers (criando a tabela customers)
 
 npx prisma migrate dev --name create-users (criando a tabela users)
 
+npx prisma migrate dev --name create-sellers (criando a tabela sellers)
+
 # Para cryptografar senha
 npm install bcrypt
 
