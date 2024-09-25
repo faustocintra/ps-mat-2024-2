@@ -11,6 +11,7 @@ import indexRouter from './routes/index.js'
 import carsRouter from './routes/cars.js'
 import customerRouter from './routes/customer.js'
 import usersRouter from './routes/users.js'
+import sellersRouter from  './routes/sellers.js'
 // midlleware de verificação
 import authMidlleware from './middleware/auth.js'
 
@@ -34,5 +35,6 @@ app.use (authMidlleware)
 app.use('/cars', carsRouter)
 app.use('/customers', customerRouter)
 app.use('/users', usersRouter)
+app.use('/sellers', sellersRouter)
 
 export default app
