@@ -24,7 +24,7 @@ function getOptions(body = null, method = 'GET') {
   const options = {
     method,
     headers: {"Content-type": "application/json; charset=UTF-8"},
-    //credentials: 'include'
+    // credentials: 'include'
   }
 
   if(body) options.body = JSON.stringify(body)
@@ -55,28 +55,32 @@ function getErrorDescription(response) {
   }
 }
 
+function processResponse(response) {
+  if(response.ok) {
+    const isJson = response.headers.get('content-type')?.includes('application/json')
+    if(isJson) return response.json()
+    else return true
+  } else throw new HttpError(response.status, getErrorDescription(response))
+}
+
 myfetch.post = async function(path, body) {
   const response = await fetch(baseUrl + path, getOptions(body, 'POST'))
-  if(response.ok) return response.json()
-  else throw new HttpError(response.status, getErrorDescription(response))
+  return processResponse(response)
 }
 
 myfetch.put = async function(path, body) {
   const response = await fetch(baseUrl + path, getOptions(body, 'PUT'))
-  if(response.ok) return true
-  else throw new HttpError(response.status, getErrorDescription(response))
+  return processResponse(response)
 }
 
 myfetch.get = async function(path) {
   const response = await fetch(baseUrl + path, getOptions())
-  if(response.ok) return response.json()
-  else throw new HttpError(response.status, getErrorDescription(response))
+  return processResponse(response)
 }
 
 myfetch.delete = async function(path) {
   const response = await fetch(baseUrl + path, getOptions(null, 'DELETE'))
-  if(response.ok) return true   // Não retorna json()
-  else throw new HttpError(response.status, getErrorDescription(response))
+  return processResponse(response)
 }
 
 export default myfetch

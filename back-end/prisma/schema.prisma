@@ -44,6 +44,7 @@ model Customer {
   street_name       String
   house_number      String
   complements       String?
+  district          String      @default("Centro")
   municipality      String
   state             String
   phone             String

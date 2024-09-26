@@ -35,10 +35,10 @@ export default function CustomerList() {
       width: 150
     },
     {
-      field: 'city',
+      field: 'municipality',
       headerName: 'Município/UF',
       width: 200,
-      valueGetter: (value, row) => value + '/' + row.uf
+      valueGetter: (value, row) => value + '/' + row.state
     },
     {
       field: 'phone',

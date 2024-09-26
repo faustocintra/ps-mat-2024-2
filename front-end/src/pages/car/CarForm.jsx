@@ -99,6 +99,8 @@ export default function CarForm() {
       // Invoca a validação dos dados da biblioteca Zod
       // por meio do model Car === '' ? '' : parseFloat(value)
 
+      if(car.selling_price === '') car.selling_price = null
+
       Car.parse(car)
       console.log(car)
 
@@ -116,7 +118,7 @@ export default function CarForm() {
         navigate('..', { relative: 'path', replace: true })
       })
     } catch (error) {
-      // console.error(error)
+      console.error(error)
       if (error instanceof ZodError) {
         // Formamos um objeto contendo os erros do Zod e
         // o colocamos na variável de estado inputErrors
@@ -148,9 +150,12 @@ export default function CarForm() {
 
       // Converte o formato de data armazenado no banco de dados
       // para o formato reconhecido pelo componente DatePicker
-      result.birth_date = parseISO(result.birth_date)
+      
+      if(result.selling_date) {
+        result.selling_date = parseISO(result.selling_date)
+      }
 
-      setState({ ...state, customer: result })
+      setState({ ...state, car: result })
     } catch (error) {
       console.error(error)
       notify(error.message, 'error')
@@ -245,19 +250,21 @@ export default function CarForm() {
             ))}
           </TextField>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                name='imported'
-                variant='filled'
-                value={(car.imported = imported)}
-                checked={imported}
-                onChange={handleImportedChange}
-                color='primary'
-              />
-            }
-            label='Importado'
-          />
+          <div class="MuiFormControl-root">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name='imported'
+                  variant='filled'
+                  value={(car.imported = imported)}
+                  checked={imported}
+                  onChange={handleImportedChange}
+                  color='primary'
+                />
+              }
+              label='Importado'
+            />
+          </div>
 
           <InputMask
             mask='AAA-9$99'
@@ -307,7 +314,6 @@ export default function CarForm() {
             label='Preço de venda'
             variant='filled'
             type='number'
-            required
             fullWidth
             value={car.selling_price}
             onChange={handleFieldChange}
@@ -330,9 +336,9 @@ export default function CarForm() {
             </Button>
           </Box>
 
-          {/* <Box sx={{ fontFamily: 'monospace', display: 'flex', width: '100%' }}>
-            {JSON.stringify(inputErrors)}
-          </Box> */}
+          {/*<Box sx={{ fontFamily: 'monospace', display: 'flex', width: '100%' }}>
+            {JSON.stringify(car)}
+          </Box>*/}
         </form>
       </Box>
     </>

@@ -43,7 +43,7 @@ const Customer = z.object({
     z.string()
     .max(10, { message: 'O número pode ter, no máximo, 10 caracteres' }),
 
-  additional_info:
+  complements:
     z.string()
     .max(20, { message: 'O complemento pode ter, no máximo, 20 caracteres' })
     .nullable(),
@@ -52,21 +52,24 @@ const Customer = z.object({
     z.string()
     .max(30, { message: 'O bairro pode ter, no máximo, 30 caracteres' }),
 
-  city:
+  municipality:
     z.string()
     .max(40, { message: 'O município pode ter, no máximo, 40 caracteres' }),
 
-  uf:
+  state:
     z.string()
-    .length(2, { message: 'UF deve ter, exatamente, 2 caracteres' }),
+    .length(2, { message: 'state deve ter, exatamente, 2 caracteres' }),
 
   phone:
     z.string()
-    .transform(val => val.replace(' ', ''))
+    .transform(val => val.replace('_', ''))
     // Depois de um transform(), não podemos usar length(). Por isso, devemos
     // usar uma função personalizada com refine() para validar o tamanho do
     // campo
-    .refine(val => val.length === 15, { message: 'O número do telefone/celular está incompleto' }),
+    .refine(val => {
+      console.log('val.length', val.length, 'val', val)
+      return val.length === 15
+}   , { message: 'O número do telefone/celular está incompleto' }),
 
   email:
     z.string()
