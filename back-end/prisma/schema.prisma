@@ -24,7 +24,25 @@ model Car {
   imported          Boolean       // Se o carro é importado ou não
   plates            String        // Placas do carro
   selling_date      DateTime?     // Data de venda; preenchimento opcional
-  selling_price     Decimal?      // Preço de venda; preenchimento opcional    
+  selling_price     Decimal?      // Preço de venda; preenchimento opcional 
+  customer_id       Int?
+  customer          Customer?     @relation(fields: [customer_id], references: [id])
+}
+
+model Customer {
+  id                Int           @id @default(autoincrement())
+  name              String
+  ident_document    String
+  birth_date        DateTime?
+  street_name       String
+  house_number      String
+  complements       String?
+  district          String        @default("Centro")
+  municipality      String
+  state             String
+  phone             String
+  email             String
+  cars              Car[]         // Carros adquiridos pelo cliente
 }
 
 model User {
@@ -36,17 +54,4 @@ model User {
   is_admin          Boolean       @default(false)
 }
 
-model Customer {
-  id                Int         @id @default(autoincrement())
-  name              String
-  ident_document    String
-  birth_date        DateTime?
-  street_name       String
-  house_number      String
-  complements       String?
-  district          String      @default("Centro")
-  municipality      String
-  state             String
-  phone             String
-  email             String
-}
+

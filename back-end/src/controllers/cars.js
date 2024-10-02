@@ -19,7 +19,16 @@ controller.create = async function(req, res) {
 
 controller.retrieveAll = async function(req, res) {
   try {
-    const result = await prisma.car.findMany()
+    const result = await prisma.car.findMany({
+      orderBy: [
+        { brand: 'asc' },
+        { model: 'asc' },
+        { id: 'asc' }
+      ],
+      include: {
+        customer: req.query.include === 'customer'
+      }
+    })
 
     // HTTP 200: OK (implícito)
     res.send(result)
@@ -35,7 +44,10 @@ controller.retrieveAll = async function(req, res) {
 controller.retrieveOne = async function(req, res) {
   try {
     const result = await prisma.car.findUnique({
-      where: { id: Number(req.params.id) }
+      where: { id: Number(req.params.id) },
+      include: {
+        customer: req.query.include === 'customer'
+      }
     })
 
     // Encontrou ~> retorna HTTP 200: OK (implícito)

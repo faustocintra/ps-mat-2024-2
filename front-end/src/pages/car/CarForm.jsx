@@ -34,15 +34,16 @@ export default function CarForm() {
     imported: false,
     plates: '',
     selling_date: null,
-    selling_price: '',
+    customer_id: ''
   }
 
   const [state, setState] = React.useState({
     car: { ...formDefaults },
     formModified: false,
+    customers: [],
     inputErrors: {},
   })
-  const { car, formModified, inputErrors } = state
+  const { car, customers, formModified, inputErrors } = state
 
   const params = useParams()
   const navigate = useNavigate()
@@ -140,22 +141,35 @@ export default function CarForm() {
     a função loadData() para buscar no back-end os dados do cliente a ser editado
   */
   React.useEffect(() => {
-    if (params.id) loadData()
+    loadData()
   }, [])
 
   async function loadData() {
     showWaiting(true)
     try {
-      const result = await myfetch.get(`/cars/${params.id}`)
 
-      // Converte o formato de data armazenado no banco de dados
-      // para o formato reconhecido pelo componente DatePicker
-      
-      if(result.selling_date) {
-        result.selling_date = parseISO(result.selling_date)
+      let car = { ...formDefaults }, customers = []
+
+      // Busca a lista de clientes para preencher o combo de escolha
+      // do cliente que comprou o carro
+      customers = await myfetch.get('/customers')
+
+      // Se houver parâmetro na rota, precisamos buscar o carro para
+      // ser editado
+      if(params.id) {
+
+        car = await myfetch.get(`/cars/${params.id}`)
+
+        // Converte o formato de data armazenado no banco de dados
+        // para o formato reconhecido pelo componente DatePicker
+        
+        if(car.selling_date) {
+          car.selling_date = parseISO(car.selling_date)
+        }
       }
 
-      setState({ ...state, car: result })
+      setState({ ...state, car, customers })
+
     } catch (error) {
       console.error(error)
       notify(error.message, 'error')
@@ -320,6 +334,25 @@ export default function CarForm() {
             helperText={inputErrors?.selling_price}
             error={inputErrors?.selling_price}
           />
+
+          <TextField
+            name='customer_id'
+            label='Cliente'
+            variant='filled'
+            required
+            fullWidth
+            value={car.customer_id}
+            onChange={handleFieldChange}
+            select
+            helperText={inputErrors?.customer_id}
+            error={inputErrors?.customer_id}
+          >
+            {customers.map((c) => (
+              <MenuItem key={c.id} value={c.id}>
+                {c.name}
+              </MenuItem>
+            ))}
+          </TextField>
 
           <Box
             sx={{
