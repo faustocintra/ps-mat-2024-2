@@ -25,7 +25,6 @@ export default function CarForm() {
     que, devido ao funcionamento do componente DatePicker, deve
     iniciar valendo null.
   */
-
   const formDefaults = {
     brand: '',
     model: '',
@@ -191,6 +190,14 @@ export default function CarForm() {
     navigate('..', { relative: 'path', replace: true })
   }
 
+  function handleKeyDown(event) {
+    if(event.key === 'Delete') {
+      const stateCopy = {...state}
+      stateCopy.car.customer_id = null
+      setState(stateCopy)
+    }
+  }
+
   return (
     <>
       <ConfirmDialog />
@@ -343,8 +350,9 @@ export default function CarForm() {
             fullWidth
             value={car.customer_id}
             onChange={handleFieldChange}
+            onKeyDown={handleKeyDown}
             select
-            helperText={inputErrors?.customer_id}
+            helperText={inputErrors?.customer_id || 'Tecle DEL para limpar o cliente'}
             error={inputErrors?.customer_id}
           >
             {customers.map((c) => (

@@ -14,7 +14,7 @@ export default function AuthGuard({ children }) {
   const navigate = useNavigate()
 
   async function checkAuthUser() {
-    setStatus('PROCESSING')
+    if(setStatus) setStatus('PROCESSING')
     showWaiting(true)
     try {
       const authUser = await myfetch.get('/users/me')
