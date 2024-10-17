@@ -11,6 +11,7 @@ import CustomerForm from '../pages/customer/CustomerForm'
 import CustomerList from '../pages/customer/CustomerList'
 
 import UserList from '../pages/user/UserList'
+import UserForm from '../pages/user/UserForm'
 
 import About from '../pages/About'
 
@@ -36,6 +37,8 @@ export default function AppRoutes() {
     <Route path="/users" element={ 
       <AuthGuard> <UserList /> </AuthGuard> 
     } />
+    <Route path="/users/new" element={ <AuthGuard> <UserForm /> </AuthGuard> } />
+    <Route path="/users/:id" element={ <AuthGuard> <UserForm /> </AuthGuard> } />
 
     {/* 11. Crie uma rota para esse componente. */}
     <Route path="/about" element={ <About /> } />
