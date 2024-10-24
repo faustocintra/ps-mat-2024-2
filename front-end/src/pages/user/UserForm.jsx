@@ -306,9 +306,9 @@ export default function UserForm() {
             </Button>
           </Box>
 
-          {<Box sx={{ fontFamily: 'monospace', display: 'flex', width: '100%' }}>
+          {/*<Box sx={{ fontFamily: 'monospace', display: 'flex', width: '100%' }}>
             {JSON.stringify(user)}
-          </Box>}
+          </Box>*/}
         </form>
       </Box>
     </>
